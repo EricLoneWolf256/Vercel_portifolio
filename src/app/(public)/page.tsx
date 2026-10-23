@@ -1,6 +1,3 @@
-import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
-import { ResumeFAB } from '@/components/shared/ResumeFAB'
 import { Hero } from '@/components/sections/Hero'
 import { About } from '@/components/sections/About'
 import { Skills } from '@/components/sections/Skills'
@@ -12,13 +9,15 @@ import { getProjects } from '@/lib/data/projects'
 import { getExperience } from '@/lib/data/experience'
 import { getSkills } from '@/lib/data/skills'
 import { getTestimonials } from '@/lib/data/testimonials'
+import { getSiteSettings } from '@/lib/data/settings'
 
 // Revalidate page data every hour
 export const revalidate = 3600
 
 export default async function HomePage() {
   // Fetch all data in parallel — server-side, no client waterfalls
-  const [projects, experience, skillCategories, testimonials] = await Promise.all([
+  const [settings, projects, experience, skillCategories, testimonials] = await Promise.all([
+    getSiteSettings(),
     getProjects(),
     getExperience(),
     getSkills(),
@@ -27,18 +26,13 @@ export default async function HomePage() {
 
   return (
     <>
-      <Navbar />
-      <main id="main">
-        <Hero />
-        <About />
-        <Skills skillCategories={skillCategories} />
-        <Projects projects={projects} />
-        <Experience experience={experience} />
-        <Testimonials testimonials={testimonials} />
-        <Contact />
-      </main>
-      <Footer />
-      <ResumeFAB />
+      <Hero settings={settings} />
+      <About settings={settings} />
+      <Skills skillCategories={skillCategories} />
+      <Projects projects={projects} />
+      <Experience experience={experience} />
+      <Testimonials testimonials={testimonials} />
+      <Contact settings={settings} />
     </>
   )
 }
