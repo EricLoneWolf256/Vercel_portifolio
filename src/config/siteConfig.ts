@@ -18,9 +18,9 @@ export const siteConfig = {
 
   // ─── Availability ──────────────────────────────────────────────────────────
   // Change `status` to update the badge everywhere on the site.
-  // "open"      → 🟢 pulsing green dot
-  // "selective" → 🟡 yellow dot
-  // "closed"    → 🔴 red dot
+  // "open"      → pulsing green dot
+  // "selective" → yellow dot
+  // "closed"    → red dot
   availability: {
     status: 'open',
     label: 'Open to full-time roles',

@@ -144,7 +144,7 @@ export function Contact({ settings }: { settings: SiteSettings }) {
                 )}
               </div>
               <p className="mt-4 text-xs text-[var(--text-tertiary)]">
-                ⚡ I typically respond within 24 hours.
+                I typically respond within 24 hours.
               </p>
             </div>
           </FadeUp>

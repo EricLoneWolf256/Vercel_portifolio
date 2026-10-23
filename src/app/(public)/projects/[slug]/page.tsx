@@ -115,7 +115,7 @@ export default async function ProjectPage({
           {/* Impact */}
           {project.impact && (
             <div className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent-muted)] px-4 py-2.5 text-sm font-medium text-[var(--accent)]">
-              📈 {project.impact}
+              {project.impact}
             </div>
           )}
 
