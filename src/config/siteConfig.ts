@@ -30,7 +30,7 @@ export const siteConfig = {
   // ─── Resume ────────────────────────────────────────────────────────────────
   // Upload your PDF to Cloudinary as a raw file and paste the URL here.
   // Updating your CV = replace this URL only. No redeploy needed.
-  resumeUrl: 'https://res.cloudinary.com/demo/raw/upload/portfolio/resume.pdf',
+  resumeUrl: 'https://res.cloudinary.com/pwwglm6s/raw/upload/portfolio/resume.pdf',
   resumeFilename: 'YourName_Resume_2026.pdf',
 
   // ─── Social Links ──────────────────────────────────────────────────────────
