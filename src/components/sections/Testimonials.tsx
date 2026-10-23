@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { ExternalLink, Quote } from 'lucide-react'
 import { FadeUp } from '@/components/animations/FadeUp'
+import { SectionKicker } from '@/components/shared/SectionKicker'
 import { getCloudinaryUrl } from '@/lib/cloudinary'
 import { cn } from '@/lib/utils'
 import type { Testimonial } from '@/types'
@@ -20,7 +21,7 @@ export function Testimonials({ testimonials }: TestimonialsSectionProps) {
     >
       <div className="mx-auto max-w-5xl px-4 md:px-8">
         <FadeUp>
-          <p className="font-mono text-sm text-[var(--accent)]">05. testimonials</p>
+          <SectionKicker number="05" label="Testimonials" />
           <h2
             id="testimonials-heading"
             className="mt-2 font-display text-4xl font-semibold text-[var(--text-primary)]"

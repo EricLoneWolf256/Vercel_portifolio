@@ -1,4 +1,5 @@
 import { FadeUp } from '@/components/animations/FadeUp'
+import { SectionKicker } from '@/components/shared/SectionKicker'
 import type { SiteSettings } from '@/types'
 
 export function About({ settings }: { settings: SiteSettings }) {
@@ -12,7 +13,7 @@ export function About({ settings }: { settings: SiteSettings }) {
     >
       <div className="mx-auto max-w-5xl px-4 md:px-8">
         <FadeUp>
-          <p className="font-mono text-sm text-[var(--accent)]">01. about me</p>
+          <SectionKicker number="01" label="About Me" />
           <h2
             id="about-heading"
             className="mt-2 font-display text-4xl font-semibold text-[var(--text-primary)]"

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FadeUp } from '@/components/animations/FadeUp'
+import { SectionKicker } from '@/components/shared/SectionKicker'
 import { TechIcon } from '@/components/shared/TechIcon'
 import { getTechIcon } from '@/lib/techIcons'
 import { cn } from '@/lib/utils'
@@ -31,7 +32,7 @@ export function Skills({ skillCategories }: SkillsSectionProps) {
     >
       <div className="mx-auto max-w-5xl px-4 md:px-8">
         <FadeUp>
-          <p className="font-mono text-sm text-[var(--accent)]">02. skills</p>
+          <SectionKicker number="02" label="Skills" />
           <h2
             id="skills-heading"
             className="mt-2 font-display text-4xl font-semibold text-[var(--text-primary)]"

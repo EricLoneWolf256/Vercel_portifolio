@@ -13,6 +13,7 @@ function GithubIcon({ className }: { className?: string }) {
   )
 }
 import { FadeUp } from '@/components/animations/FadeUp'
+import { SectionKicker } from '@/components/shared/SectionKicker'
 import { TechBadge } from '@/components/shared/TechBadge'
 import { getCloudinaryUrl } from '@/lib/cloudinary'
 import { cn } from '@/lib/utils'
@@ -58,7 +59,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
     >
       <div className="mx-auto max-w-5xl px-4 md:px-8">
         <FadeUp>
-          <p className="font-mono text-sm text-[var(--accent)]">03. projects</p>
+          <SectionKicker number="03" label="Projects" />
           <h2
             id="projects-heading"
             className="mt-2 font-display text-4xl font-semibold text-[var(--text-primary)]"

@@ -1,5 +1,6 @@
 import { Mail, Calendar } from 'lucide-react'
 import { FadeUp } from '@/components/animations/FadeUp'
+import { SectionKicker } from '@/components/shared/SectionKicker'
 import type { SiteSettings } from '@/types'
 
 function LinkedinIcon({ className }: { className?: string }) {
@@ -19,7 +20,7 @@ export function Contact({ settings }: { settings: SiteSettings }) {
     >
       <div className="mx-auto max-w-5xl px-4 md:px-8">
         <FadeUp>
-          <p className="font-mono text-sm text-[var(--accent)]">06. contact</p>
+          <SectionKicker number="06" label="Contact" />
           <h2
             id="contact-heading"
             className="mt-2 font-display text-4xl font-semibold text-[var(--text-primary)]"

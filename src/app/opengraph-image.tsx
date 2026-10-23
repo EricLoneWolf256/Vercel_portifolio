@@ -16,7 +16,7 @@ export default function OGImage() {
           flexDirection: 'column',
           justifyContent: 'center',
           padding: '80px',
-          backgroundColor: '#0A0A0A',
+          backgroundColor: '#1A1613',
           fontFamily: 'system-ui, sans-serif',
           position: 'relative',
         }}
@@ -30,7 +30,7 @@ export default function OGImage() {
             width: '600px',
             height: '600px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(227,90,50,0.18) 0%, transparent 70%)',
           }}
         />
 
@@ -41,8 +41,8 @@ export default function OGImage() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              backgroundColor: 'rgba(34,197,94,0.1)',
-              border: '1px solid rgba(34,197,94,0.3)',
+              backgroundColor: 'rgba(140,163,58,0.12)',
+              border: '1px solid rgba(140,163,58,0.35)',
               borderRadius: '999px',
               padding: '6px 14px',
               width: 'fit-content',
@@ -54,10 +54,10 @@ export default function OGImage() {
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
-                backgroundColor: '#22C55E',
+                backgroundColor: '#8CA33A',
               }}
             />
-            <span style={{ color: '#22C55E', fontSize: '14px', fontWeight: 600 }}>
+            <span style={{ color: '#8CA33A', fontSize: '14px', fontWeight: 600 }}>
               {siteConfig.availability.label}
             </span>
           </div>
@@ -68,7 +68,7 @@ export default function OGImage() {
           style={{
             fontSize: '72px',
             fontWeight: 700,
-            color: '#EDEDED',
+            color: '#F2E9D8',
             lineHeight: 1,
             letterSpacing: '-0.03em',
             marginBottom: '16px',
@@ -82,7 +82,7 @@ export default function OGImage() {
           style={{
             fontSize: '32px',
             fontWeight: 600,
-            color: '#3B82F6',
+            color: '#E35A32',
             marginBottom: '16px',
           }}
         >
@@ -93,7 +93,7 @@ export default function OGImage() {
         <div
           style={{
             fontSize: '20px',
-            color: '#888888',
+            color: '#A99C89',
             maxWidth: '700px',
             lineHeight: 1.5,
           }}
@@ -113,10 +113,10 @@ export default function OGImage() {
             alignItems: 'center',
           }}
         >
-          <span style={{ color: '#555555', fontSize: '16px', fontFamily: 'monospace' }}>
+          <span style={{ color: '#716656', fontSize: '16px', fontFamily: 'monospace' }}>
             {siteConfig.url.replace('https://', '')}
           </span>
-          <span style={{ color: '#2A2A2A', fontSize: '16px' }}>
+          <span style={{ color: '#3B332C', fontSize: '16px' }}>
             {siteConfig.location}
           </span>
         </div>

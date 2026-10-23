@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { MapPin, Wifi, Building2, Briefcase } from 'lucide-react'
 import { FadeUp } from '@/components/animations/FadeUp'
+import { SectionKicker } from '@/components/shared/SectionKicker'
 import { TechBadge } from '@/components/shared/TechBadge'
 import { getCloudinaryUrl } from '@/lib/cloudinary'
 import { formatDate, formatDateRange } from '@/lib/utils'
@@ -33,7 +34,7 @@ export function Experience({ experience }: ExperienceSectionProps) {
     >
       <div className="mx-auto max-w-5xl px-4 md:px-8">
         <FadeUp>
-          <p className="font-mono text-sm text-[var(--accent)]">04. experience</p>
+          <SectionKicker number="04" label="Experience" />
           <h2
             id="experience-heading"
             className="mt-2 font-display text-4xl font-semibold text-[var(--text-primary)]"

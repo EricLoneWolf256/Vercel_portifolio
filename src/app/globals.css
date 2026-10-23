@@ -26,6 +26,9 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-muted: var(--accent-muted);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-hover: var(--accent-2-hover);
+  --color-accent-2-muted: var(--accent-2-muted);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
@@ -52,25 +55,31 @@
 }
 
 /* ─── Dark Mode (default) ──────────────────────────────────────────────────── */
+/* Palette pulled from "The Rice Cream" packaging: warm charcoal ink,         */
+/* burnt-coral primary (Original flavor), olive-lime secondary (Matcha).     */
 
 :root {
   color-scheme: dark;
 
-  --bg:               #0A0A0A;
-  --surface:          #111111;
-  --surface-elevated: #1A1A1A;
-  --border:           #2A2A2A;
-  --text-primary:     #EDEDED;
-  --text-secondary:   #888888;
-  --text-tertiary:    #555555;
+  --bg:               #1A1613;
+  --surface:          #211C18;
+  --surface-elevated: #2B2420;
+  --border:           #3B332C;
+  --text-primary:     #F2E9D8;
+  --text-secondary:   #A99C89;
+  --text-tertiary:    #716656;
 
-  --accent:           #3B82F6;
-  --accent-hover:     #2563EB;
-  --accent-muted:     #1E3A5F;
+  --accent:           #E35A32;
+  --accent-hover:     #C8481F;
+  --accent-muted:     #4A2A1C;
 
-  --success:          #22C55E;
-  --warning:          #F59E0B;
-  --error:            #EF4444;
+  --accent-2:         #A9B23F;
+  --accent-2-hover:   #8C9530;
+  --accent-2-muted:   #353A1E;
+
+  --success:          #8CA33A;
+  --warning:          #E0A53A;
+  --error:            #E24A4A;
 }
 
 /* ─── Light Mode ────────────────────────────────────────────────────────────── */
@@ -78,21 +87,25 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg:               #FAFAFA;
-  --surface:          #FFFFFF;
-  --surface-elevated: #F4F4F5;
-  --border:           #E4E4E7;
-  --text-primary:     #09090B;
-  --text-secondary:   #71717A;
-  --text-tertiary:    #A1A1AA;
+  --bg:               #FBF3E6;
+  --surface:          #FFFCF6;
+  --surface-elevated: #F3E6CC;
+  --border:           #E6D5AE;
+  --text-primary:     #241E18;
+  --text-secondary:   #635544;
+  --text-tertiary:    #93826B;
 
-  --accent:           #2563EB;
-  --accent-hover:     #1D4ED8;
-  --accent-muted:     #DBEAFE;
+  --accent:           #D6451F;
+  --accent-hover:     #B5371A;
+  --accent-muted:     #F6D9C4;
 
-  --success:          #16A34A;
-  --warning:          #D97706;
-  --error:            #DC2626;
+  --accent-2:         #7C8A2E;
+  --accent-2-hover:   #677424;
+  --accent-2-muted:   #E4E8BE;
+
+  --success:          #6F8A2A;
+  --warning:          #B8791F;
+  --error:            #C7372F;
 }
 
 /* ─── Base Resets ────────────────────────────────────────────────────────────── */

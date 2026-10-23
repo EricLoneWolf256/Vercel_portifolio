@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
+import { Inter, JetBrains_Mono, Fredoka } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'sonner'
 import { Analytics } from '@vercel/analytics/next'
@@ -16,11 +16,11 @@ const inter = Inter({
   display: 'swap',
 })
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const fredoka = Fredoka({
   subsets: ['latin'],
   variable: '--font-cal-sans', // reuse the same CSS var so all font-display references work
   display: 'swap',
-  weight: ['600', '700', '800'],
+  weight: ['500', '600', '700'],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -95,8 +95,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#0A0A0A' },
-    { media: '(prefers-color-scheme: light)', color: '#FAFAFA' },
+    { media: '(prefers-color-scheme: dark)', color: '#1A1613' },
+    { media: '(prefers-color-scheme: light)', color: '#FBF3E6' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -126,7 +126,7 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${jetbrainsMono.variable} ${plusJakartaSans.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${fredoka.variable}`}
     >
       <head>
         <script

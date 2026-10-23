@@ -40,12 +40,13 @@ export function Hero({ settings }: { settings: SiteSettings }) {
       aria-label="Introduction"
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Subtle radial gradient background */}
+      {/* Two-tone gradient backdrop — coral + olive, echoing the brand's two colorways */}
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 50% -10%, var(--accent-muted) 0%, transparent 70%)',
+            'radial-gradient(ellipse 70% 55% at 20% -10%, var(--accent-muted) 0%, transparent 65%), ' +
+            'radial-gradient(ellipse 70% 55% at 85% 5%, var(--accent-2-muted) 0%, transparent 65%)',
         }}
         aria-hidden
       />
