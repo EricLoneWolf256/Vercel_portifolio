@@ -15,7 +15,6 @@ function LinkedinIcon({ className }: { className?: string }) {
   )
 }
 import { FadeUp } from '@/components/animations/FadeUp'
-import { LocalTime } from '@/components/shared/LocalTime'
 import { submitContact } from '@/app/actions/contact'
 import { cn } from '@/lib/utils'
 import type { SiteSettings } from '@/types'
@@ -92,20 +91,6 @@ export function Contact({ settings }: { settings: SiteSettings }) {
         <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
           {/* Left — direct contact methods */}
           <FadeUp delay={0.1} className="space-y-6">
-            {/* Location + time */}
-            <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--text-tertiary)]">Current Time</p>
-              <p className="text-lg font-medium text-[var(--text-primary)]">
-                <LocalTime />
-              </p>
-              <p className="text-sm text-[var(--text-secondary)]">
-                {settings.location} · {settings.timezoneLabel}
-              </p>
-              <p className="text-sm text-[var(--text-tertiary)] pt-1">
-                {settings.availability.arrangement}
-              </p>
-            </div>
-
             {/* Response time */}
             <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5">
               <p className="text-xs font-semibold uppercase tracking-widest text-[var(--text-tertiary)] mb-3">Preferred Contact</p>
