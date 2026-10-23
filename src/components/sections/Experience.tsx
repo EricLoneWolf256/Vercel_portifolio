@@ -45,7 +45,7 @@ export function Experience({ experience }: ExperienceSectionProps) {
 
         {experience.length === 0 ? (
           <FadeUp delay={0.1}>
-            <div className="mt-12 rounded-xl border border-dashed border-[var(--border)] p-12 text-center">
+            <div className="mt-12 rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-12 text-center">
               <p className="text-[var(--text-tertiary)]">
                 Add experience to Firestore <code className="font-mono text-xs">/experience</code> to see it here.
               </p>

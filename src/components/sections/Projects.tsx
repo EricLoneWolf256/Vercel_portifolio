@@ -181,7 +181,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
 
         {hasFeatured && gridProjects.length > 0 && (
           <FadeUp delay={0.05}>
-            <p className="mt-12 text-sm font-semibold uppercase tracking-widest text-[var(--text-tertiary)]">
+            <p className="mt-12 text-sm font-semibold uppercase tracking-widest text-[var(--text-secondary)]">
               More projects
             </p>
           </FadeUp>
@@ -200,7 +200,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
                 className={cn(
                   'rounded-lg border px-3 py-1.5 text-sm font-medium transition-all',
                   activeTag === null
-                    ? 'border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]'
+                    ? 'border-[var(--accent)] bg-[var(--accent-muted)] text-[var(--accent)]'
                     : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:border-[var(--accent)]/50',
                 )}
                 aria-pressed={activeTag === null}
@@ -214,7 +214,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
                   className={cn(
                     'rounded-lg border px-3 py-1.5 text-sm font-medium transition-all',
                     activeTag === tag
-                      ? 'border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]'
+                      ? 'border-[var(--accent)] bg-[var(--accent-muted)] text-[var(--accent)]'
                       : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:border-[var(--accent)]/50',
                   )}
                   aria-pressed={activeTag === tag}
@@ -228,7 +228,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
 
         {/* Result count when filtered */}
         {activeTag && (
-          <p className="mt-4 text-sm text-[var(--text-tertiary)]">
+          <p className="mt-4 text-sm text-[var(--text-secondary)]">
             Showing {gridProjects.length} of {projects.length} projects
           </p>
         )}
@@ -363,7 +363,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
 
         {/* Empty state */}
         {gridProjects.length === 0 && (
-          <div className="mt-8 rounded-xl border border-dashed border-[var(--border)] p-12 text-center">
+          <div className="mt-8 rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-12 text-center">
             <p className="text-[var(--text-tertiary)]">No projects match this filter.</p>
           </div>
         )}
@@ -374,7 +374,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
             href={siteConfig.social.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--accent)]"
+            className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
           >
             <GithubIcon className="h-4 w-4" />
             View all repositories on GitHub

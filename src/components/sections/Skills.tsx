@@ -13,9 +13,11 @@ interface SkillsSectionProps {
   skillCategories: SkillCategory[]
 }
 
+// Solid `-muted` fills (not translucent `/10` overlays) so these badges stay
+// legible whether they sit on a cream card or directly on the bold page bg.
 const levelConfig: Record<SkillLevel, { label: string; color: string }> = {
-  expert:     { label: 'Expert',     color: 'text-[var(--accent)] border-[var(--accent)]/40 bg-[var(--accent)]/10' },
-  proficient: { label: 'Proficient', color: 'text-[var(--success)] border-[var(--success)]/40 bg-[var(--success)]/10' },
+  expert:     { label: 'Expert',     color: 'text-[var(--accent)] border-[var(--accent)]/40 bg-[var(--accent-muted)]' },
+  proficient: { label: 'Proficient', color: 'text-[var(--success)] border-[var(--accent-2)]/40 bg-[var(--accent-2-muted)]' },
   familiar:   { label: 'Familiar',   color: 'text-[var(--text-tertiary)] border-[var(--border)] bg-[var(--surface-elevated)]' },
 }
 
@@ -77,7 +79,7 @@ export function Skills({ skillCategories }: SkillsSectionProps) {
                   className={cn(
                     'rounded-lg border px-4 py-2 text-sm font-medium transition-all',
                     activeTab === cat.category
-                      ? 'border-[var(--accent)] bg-[var(--accent)]/10 text-[var(--accent)]'
+                      ? 'border-[var(--accent)] bg-[var(--accent-muted)] text-[var(--accent)]'
                       : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:border-[var(--accent)]/50 hover:text-[var(--text-primary)]',
                   )}
                 >
@@ -142,7 +144,7 @@ export function Skills({ skillCategories }: SkillsSectionProps) {
           {/* Fallback when Firestore is empty (dev) */}
           {skillCategories.length === 0 && (
             <FadeUp delay={0.2}>
-              <div className="rounded-xl border border-dashed border-[var(--border)] p-12 text-center">
+              <div className="rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-12 text-center">
                 <p className="text-[var(--text-tertiary)]">
                   Add skills to Firestore <code className="font-mono text-xs">/skills</code> collection to see them here.
                 </p>

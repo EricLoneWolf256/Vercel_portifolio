@@ -16,7 +16,8 @@ export default function OGImage() {
           flexDirection: 'column',
           justifyContent: 'center',
           padding: '80px',
-          backgroundColor: '#1A1613',
+          backgroundColor: '#CE6D3C',
+          backgroundImage: 'linear-gradient(180deg, #CC6B3A 0%, #CE6D3C 50%, #D87B48 100%)',
           fontFamily: 'system-ui, sans-serif',
           position: 'relative',
         }}
@@ -30,7 +31,7 @@ export default function OGImage() {
             width: '600px',
             height: '600px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(227,90,50,0.18) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.14) 0%, transparent 70%)',
           }}
         />
 
@@ -41,8 +42,8 @@ export default function OGImage() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              backgroundColor: 'rgba(140,163,58,0.12)',
-              border: '1px solid rgba(140,163,58,0.35)',
+              backgroundColor: '#E8ECC4',
+              border: '1px solid rgba(103,116,36,0.3)',
               borderRadius: '999px',
               padding: '6px 14px',
               width: 'fit-content',
@@ -54,10 +55,10 @@ export default function OGImage() {
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
-                backgroundColor: '#8CA33A',
+                backgroundColor: '#677424',
               }}
             />
-            <span style={{ color: '#8CA33A', fontSize: '14px', fontWeight: 600 }}>
+            <span style={{ color: '#677424', fontSize: '14px', fontWeight: 600 }}>
               {siteConfig.availability.label}
             </span>
           </div>
@@ -68,7 +69,7 @@ export default function OGImage() {
           style={{
             fontSize: '72px',
             fontWeight: 700,
-            color: '#F2E9D8',
+            color: '#140D07',
             lineHeight: 1,
             letterSpacing: '-0.03em',
             marginBottom: '16px',
@@ -82,7 +83,7 @@ export default function OGImage() {
           style={{
             fontSize: '32px',
             fontWeight: 600,
-            color: '#E35A32',
+            color: '#140D07',
             marginBottom: '16px',
           }}
         >
@@ -93,7 +94,7 @@ export default function OGImage() {
         <div
           style={{
             fontSize: '20px',
-            color: '#A99C89',
+            color: '#241A10',
             maxWidth: '700px',
             lineHeight: 1.5,
           }}
@@ -113,10 +114,10 @@ export default function OGImage() {
             alignItems: 'center',
           }}
         >
-          <span style={{ color: '#716656', fontSize: '16px', fontFamily: 'monospace' }}>
+          <span style={{ color: '#241A10', fontSize: '16px', fontFamily: 'monospace' }}>
             {siteConfig.url.replace('https://', '')}
           </span>
-          <span style={{ color: '#3B332C', fontSize: '16px' }}>
+          <span style={{ color: '#5C4836', fontSize: '16px' }}>
             {siteConfig.location}
           </span>
         </div>

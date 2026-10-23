@@ -40,17 +40,6 @@ export function Hero({ settings }: { settings: SiteSettings }) {
       aria-label="Introduction"
       className="relative min-h-screen overflow-hidden"
     >
-      {/* Two-tone gradient backdrop — coral + olive, echoing the brand's two colorways */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            'radial-gradient(ellipse 70% 55% at 20% -10%, var(--accent-muted) 0%, transparent 65%), ' +
-            'radial-gradient(ellipse 70% 55% at 85% 5%, var(--accent-2-muted) 0%, transparent 65%)',
-        }}
-        aria-hidden
-      />
-
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-4 pb-16 pt-32 md:px-8">
         <motion.div
           initial="hidden"
@@ -73,7 +62,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
               className="space-y-2"
             >
-              <p className="text-2xl font-semibold text-[var(--accent)]">{settings.title}</p>
+              <p className="text-2xl font-semibold text-[var(--text-primary)]">{settings.title}</p>
               <p className="max-w-xl text-lg text-[var(--text-secondary)]">{settings.tagline}</p>
             </motion.div>
 
@@ -111,7 +100,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub profile"
-                className="inline-block text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
+                className="inline-block text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
               >
                 <GithubIcon className="h-5 w-5" />
               </motion.a>
@@ -121,7 +110,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn profile"
-                className="inline-block text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
+                className="inline-block text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
               >
                 <LinkedinIcon className="h-5 w-5" />
               </motion.a>
@@ -164,7 +153,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
           <a
             href="/#about"
             aria-label="Scroll to about section"
-            className="flex flex-col items-center gap-1 text-xs text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-secondary)]"
+            className="flex flex-col items-center gap-1 text-xs text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
           >
             <span>Scroll</span>
             <ArrowDown className="h-4 w-4 animate-bounce" />
