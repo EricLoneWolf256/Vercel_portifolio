@@ -5,6 +5,7 @@ import { Toaster } from 'sonner'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { siteConfig } from '@/config/siteConfig'
+import { getSiteSettings } from '@/lib/data/settings'
 import '@/app/globals.css'
 
 // ─── Fonts ────────────────────────────────────────────────────────────────────
@@ -29,59 +30,67 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
+// Reads from Firestore (via getSiteSettings) with siteConfig.ts as the
+// fallback, so this stays in sync with whatever the owner sets in
+// /admin/settings without a redeploy.
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: `${siteConfig.name} — ${siteConfig.title}`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    siteConfig.title,
-    siteConfig.name,
-    'portfolio',
-    'Next.js',
-    'React',
-    'TypeScript',
-    'Firebase',
-    'Full-Stack Engineer',
-  ],
-  authors: [{ name: siteConfig.name, url: siteConfig.url }],
-  creator: siteConfig.name,
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    title: `${siteConfig.name} — ${siteConfig.title}`,
-    description: siteConfig.description,
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: `${siteConfig.name} — ${siteConfig.title}`,
-      },
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings()
+  const titleFull = `${settings.name} — ${settings.title}`
+
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: titleFull,
+      template: `%s | ${settings.name}`,
+    },
+    description: settings.description,
+    keywords: [
+      settings.title,
+      settings.name,
+      'portfolio',
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Firebase',
+      'Full-Stack Engineer',
     ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: `${siteConfig.name} — ${siteConfig.title}`,
-    description: siteConfig.description,
-    creator: siteConfig.twitterHandle,
-    images: ['/og-image.png'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    authors: [{ name: settings.name, url: siteConfig.url }],
+    creator: settings.name,
+    openGraph: {
+      type: 'website',
+      locale: 'en_US',
+      url: siteConfig.url,
+      siteName: settings.name,
+      title: titleFull,
+      description: settings.description,
+      images: [
+        {
+          url: settings.ogImage,
+          width: 1200,
+          height: 630,
+          alt: titleFull,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: titleFull,
+      description: settings.description,
+      creator: settings.twitterHandle,
+      images: [settings.ogImage],
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-  },
+  }
 }
 
 export const viewport: Viewport = {
@@ -93,30 +102,26 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-// ─── JSON-LD Structured Data ──────────────────────────────────────────────────
-
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: siteConfig.name,
-  jobTitle: siteConfig.title,
-  description: siteConfig.description,
-  url: siteConfig.url,
-  sameAs: [
-    siteConfig.social.github,
-    siteConfig.social.linkedin,
-    siteConfig.social.twitter ?? '',
-  ].filter(Boolean),
-  knowsAbout: ['React', 'Next.js', 'TypeScript', 'Firebase', 'Node.js'],
-}
-
 // ─── Root Layout ─────────────────────────────────────────────────────────────
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const settings = await getSiteSettings()
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: settings.name,
+    jobTitle: settings.title,
+    description: settings.description,
+    url: siteConfig.url,
+    sameAs: [settings.social.github, settings.social.linkedin, settings.social.twitter ?? ''].filter(Boolean),
+    knowsAbout: ['React', 'Next.js', 'TypeScript', 'Firebase', 'Node.js'],
+  }
+
   return (
     <html
       lang="en"

@@ -104,3 +104,34 @@ export interface NavLink {
   label: string
   href: string
 }
+
+// ─── Site Settings (editable from /admin) ────────────────────────────────────
+
+export interface AboutStat {
+  label: string
+  value: string
+}
+
+export interface AboutContent {
+  bio: string[] // one paragraph per entry
+  stats: AboutStat[]
+  values: string[]
+}
+
+export interface SiteSettings {
+  name: string
+  title: string
+  tagline: string
+  description: string
+  location: string
+  timezone: string
+  timezoneLabel: string
+  avatarPublicId: string
+  availability: SiteAvailability
+  resumeUrl: string
+  resumeFilename: string
+  social: SocialLinks
+  ogImage: string
+  twitterHandle: string
+  about: AboutContent
+}
