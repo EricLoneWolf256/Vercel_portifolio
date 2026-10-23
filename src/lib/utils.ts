@@ -7,7 +7,7 @@ import {
   isValid,
   differenceInMonths,
 } from 'date-fns'
-import { Timestamp } from 'firebase/firestore'
+import type { Timestamp } from 'firebase/firestore'
 
 // ─── Tailwind class merger ────────────────────────────────────────────────────
 
@@ -17,13 +17,24 @@ export function cn(...inputs: ClassValue[]) {
 
 // ─── Date utilities ───────────────────────────────────────────────────────────
 
+type TimestampLike = { toDate(): Date }
+
+function hasToDate(value: unknown): value is TimestampLike {
+  return typeof value === 'object' && value !== null && typeof (value as TimestampLike).toDate === 'function'
+}
+
 /**
  * Convert a Firestore Timestamp, Date, or ISO string to a JS Date.
+ * Duck-types the Timestamp check (rather than `instanceof`) because the
+ * client SDK (`firebase/firestore`) and Admin SDK (`firebase-admin/firestore`)
+ * each have their own distinct `Timestamp` class — admin-read data (in
+ * /admin pages) would otherwise fail an `instanceof` check against the
+ * client class.
  */
 export function toDate(value: Timestamp | Date | string | null | undefined): Date | null {
   if (!value) return null
-  if (value instanceof Timestamp) return value.toDate()
   if (value instanceof Date) return isValid(value) ? value : null
+  if (hasToDate(value)) return value.toDate()
   if (typeof value === 'string') {
     const d = parseISO(value)
     return isValid(d) ? d : null
