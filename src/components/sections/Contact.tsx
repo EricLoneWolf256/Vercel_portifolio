@@ -16,9 +16,9 @@ function LinkedinIcon({ className }: { className?: string }) {
 }
 import { FadeUp } from '@/components/animations/FadeUp'
 import { LocalTime } from '@/components/shared/LocalTime'
-import { siteConfig } from '@/config/siteConfig'
 import { submitContact } from '@/app/actions/contact'
 import { cn } from '@/lib/utils'
+import type { SiteSettings } from '@/types'
 
 const schema = z.object({
   name:     z.string().min(2, 'Name must be at least 2 characters').max(100),
@@ -44,7 +44,7 @@ const inputBase = cn(
   'transition-colors focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]',
 )
 
-export function Contact() {
+export function Contact({ settings }: { settings: SiteSettings }) {
   const [submitted, setSubmitted] = useState(false)
 
   const {
@@ -99,10 +99,10 @@ export function Contact() {
                 <LocalTime />
               </p>
               <p className="text-sm text-[var(--text-secondary)]">
-                {siteConfig.location} · {siteConfig.timezoneLabel}
+                {settings.location} · {settings.timezoneLabel}
               </p>
               <p className="text-sm text-[var(--text-tertiary)] pt-1">
-                {siteConfig.availability.arrangement}
+                {settings.availability.arrangement}
               </p>
             </div>
 
@@ -112,7 +112,7 @@ export function Contact() {
               <div className="space-y-3">
                 {/* Email */}
                 <a
-                  href={`mailto:${siteConfig.social.email}?subject=Opportunity%20at%20%5BCompany%5D`}
+                  href={`mailto:${settings.social.email}?subject=Opportunity%20at%20%5BCompany%5D`}
                   className="flex items-center gap-3 rounded-lg p-3 text-sm transition-colors hover:bg-[var(--surface-elevated)]"
                 >
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--accent)]/10">
@@ -120,13 +120,13 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="font-medium text-[var(--text-primary)]">Email</p>
-                    <p className="text-[var(--text-tertiary)]">{siteConfig.social.email}</p>
+                    <p className="text-[var(--text-tertiary)]">{settings.social.email}</p>
                   </div>
                 </a>
 
                 {/* LinkedIn */}
                 <a
-                  href={siteConfig.social.linkedin}
+                  href={settings.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 rounded-lg p-3 text-sm transition-colors hover:bg-[var(--surface-elevated)]"
@@ -141,9 +141,9 @@ export function Contact() {
                 </a>
 
                 {/* Calendly */}
-                {siteConfig.social.calendly && (
+                {settings.social.calendly && (
                   <a
-                    href={siteConfig.social.calendly}
+                    href={settings.social.calendly}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 rounded-lg p-3 text-sm transition-colors hover:bg-[var(--surface-elevated)]"

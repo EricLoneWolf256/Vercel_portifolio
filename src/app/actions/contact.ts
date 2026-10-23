@@ -1,6 +1,6 @@
 'use server'
 
-import { adminDb } from '@/lib/firebase-admin'
+import { getAdminDb } from '@/lib/firebase-admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { z } from 'zod'
 
@@ -34,7 +34,7 @@ export async function submitContact(data: ContactFormData): Promise<ContactActio
 
   // Write to Firestore
   try {
-    await adminDb.collection('contact_submissions').add({
+    await getAdminDb().collection('contact_submissions').add({
       ...submission,
       read: false,
       createdAt: FieldValue.serverTimestamp(),
