@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app'
 import { getFirestore, type Firestore } from 'firebase/firestore'
+import { getAuth, type Auth } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -15,3 +16,14 @@ const app: FirebaseApp = getApps().length ? getApp() : initializeApp(firebaseCon
 const db: Firestore = getFirestore(app)
 
 export { app, db }
+
+// `getAuth()` validates the API key eagerly (unlike Firestore, which only
+// connects lazily) and throws if it's missing/malformed — which happens on
+// every server-rendered page before an owner has filled in real Firebase
+// credentials. Lazy-initialize it so only admin login/logout code (which
+// runs client-side, inside an event handler) ever touches it.
+let authInstance: Auth | null = null
+export function getFirebaseAuth(): Auth {
+  if (!authInstance) authInstance = getAuth(app)
+  return authInstance
+}
