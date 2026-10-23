@@ -2,16 +2,16 @@
 
 import { motion } from 'framer-motion'
 import { Download } from 'lucide-react'
-import { siteConfig } from '@/config/siteConfig'
 import { cn } from '@/lib/utils'
 import { scaleHover } from '@/lib/motion'
+import type { SiteSettings } from '@/types'
 
-export function ResumeFAB({ className }: { className?: string }) {
+export function ResumeFAB({ settings, className }: { settings: SiteSettings; className?: string }) {
   return (
     <motion.a
       {...scaleHover}
-      href={siteConfig.resumeUrl}
-      download={siteConfig.resumeFilename}
+      href={settings.resumeUrl}
+      download={settings.resumeFilename}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Download resume"

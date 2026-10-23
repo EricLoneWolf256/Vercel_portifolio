@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import { Mail } from 'lucide-react'
-import { siteConfig } from '@/config/siteConfig'
+import type { SiteSettings } from '@/types'
 
 function GithubIcon({ className }: { className?: string }) {
   return (
@@ -26,16 +25,16 @@ function XIcon({ className }: { className?: string }) {
   )
 }
 
-export function Footer() {
+export function Footer({ settings }: { settings: SiteSettings }) {
   const year = new Date().getFullYear()
 
   const socialLinks = [
-    { key: 'github',   href: siteConfig.social.github,   Icon: GithubIcon,   label: 'GitHub'   },
-    { key: 'linkedin', href: siteConfig.social.linkedin,  Icon: LinkedinIcon, label: 'LinkedIn' },
-    ...(siteConfig.social.twitter
-      ? [{ key: 'twitter', href: siteConfig.social.twitter, Icon: XIcon, label: 'X (Twitter)' }]
+    { key: 'github',   href: settings.social.github,   Icon: GithubIcon,   label: 'GitHub'   },
+    { key: 'linkedin', href: settings.social.linkedin,  Icon: LinkedinIcon, label: 'LinkedIn' },
+    ...(settings.social.twitter
+      ? [{ key: 'twitter', href: settings.social.twitter, Icon: XIcon, label: 'X (Twitter)' }]
       : []),
-    { key: 'email',   href: `mailto:${siteConfig.social.email}`, Icon: Mail, label: 'Email' },
+    { key: 'email',   href: `mailto:${settings.social.email}`, Icon: Mail, label: 'Email' },
   ]
 
   return (
@@ -45,9 +44,9 @@ export function Footer() {
           {/* Brand */}
           <div className="text-center sm:text-left">
             <p className="font-display text-base font-semibold text-[var(--text-primary)]">
-              {siteConfig.name}
+              {settings.name}
             </p>
-            <p className="mt-0.5 text-sm text-[var(--text-tertiary)]">{siteConfig.title}</p>
+            <p className="mt-0.5 text-sm text-[var(--text-tertiary)]">{settings.title}</p>
           </div>
 
           {/* Social links */}
@@ -69,7 +68,7 @@ export function Footer() {
 
         {/* Bottom line */}
         <div className="mt-8 flex flex-col items-center justify-between gap-2 border-t border-[var(--border)] pt-6 text-xs text-[var(--text-tertiary)] sm:flex-row">
-          <p>© {year} {siteConfig.name}. All rights reserved.</p>
+          <p>© {year} {settings.name}. All rights reserved.</p>
           <p>
             Built with{' '}
             <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">Next.js</a>
