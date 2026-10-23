@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FadeUp } from '@/components/animations/FadeUp'
+import { TechIcon } from '@/components/shared/TechIcon'
+import { getTechIcon } from '@/lib/techIcons'
 import { cn } from '@/lib/utils'
 import type { SkillCategory, SkillLevel } from '@/types'
 
@@ -111,9 +113,13 @@ export function Skills({ skillCategories }: SkillsSectionProps) {
                       'transition-all duration-200 hover:border-[var(--accent)]/40 hover:shadow-sm',
                     )}
                   >
-                    {/* Icon placeholder — in production, use simple-icons */}
+                    {/* Brand logo via simple-icons, falling back to initials when unmapped */}
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--surface-elevated)] text-sm font-bold font-mono text-[var(--accent)]">
-                      {skill.name.slice(0, 2).toUpperCase()}
+                      {getTechIcon(skill.name) ? (
+                        <TechIcon name={skill.name} className="h-4.5 w-4.5" />
+                      ) : (
+                        skill.name.slice(0, 2).toUpperCase()
+                      )}
                     </div>
                     <div>
                       <p className="text-sm font-medium text-[var(--text-primary)]">{skill.name}</p>

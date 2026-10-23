@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Star, CircleDot, Archive, Hammer } from 'lucide-react'
+import { ArrowUpRight, ExternalLink, CircleDot, Archive, Hammer } from 'lucide-react'
 
 function GithubIcon({ className }: { className?: string }) {
   return (
@@ -44,6 +45,11 @@ export function Projects({ projects }: ProjectsSectionProps) {
     [projects, activeTag],
   )
 
+  // Flagship projects get a larger spotlight treatment; everything else goes in the grid below.
+  const featuredProjects = useMemo(() => projects.filter((p) => p.featured), [projects])
+  const hasFeatured = featuredProjects.length > 0 && !activeTag
+  const gridProjects = hasFeatured ? filtered.filter((p) => !p.featured) : filtered
+
   return (
     <section
       id="projects"
@@ -60,6 +66,125 @@ export function Projects({ projects }: ProjectsSectionProps) {
             Things I&apos;ve Built
           </h2>
         </FadeUp>
+
+        {/* Flagship projects — spotlight treatment */}
+        {hasFeatured && (
+          <div className="mt-10 flex flex-col gap-8">
+            {featuredProjects.map((project, i) => {
+              const imgUrl = project.imagePublicId
+                ? getCloudinaryUrl(project.imagePublicId, { width: 900, height: 560, crop: 'fill' })
+                : null
+              const { icon: StatusIcon, label: statusLabel, color: statusColor } =
+                statusConfig[project.status] ?? statusConfig.live
+
+              return (
+                <FadeUp key={project.id} delay={i * 0.1}>
+                  <article
+                    className={cn(
+                      'group grid grid-cols-1 overflow-hidden rounded-2xl lg:grid-cols-2',
+                      'border border-[var(--border)] bg-[var(--surface)]',
+                      'transition-all duration-200 hover:border-[var(--accent)]/40 hover:shadow-lg',
+                      i % 2 === 1 && 'lg:[&>*:first-child]:order-2',
+                    )}
+                  >
+                    {imgUrl && (
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="block aspect-video overflow-hidden bg-[var(--surface-elevated)] lg:aspect-auto"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={imgUrl}
+                          alt={`${project.title} screenshot`}
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      </Link>
+                    )}
+
+                    <div className="flex flex-col justify-center gap-4 p-6 md:p-8">
+                      <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-2.5 py-1 text-xs font-semibold text-[var(--accent)]">
+                        Flagship project
+                      </span>
+
+                      <div>
+                        <Link href={`/projects/${project.slug}`} className="group/title inline-flex items-center gap-1.5">
+                          <h3 className="font-display text-2xl font-semibold text-[var(--text-primary)]">
+                            {project.title}
+                          </h3>
+                          <ArrowUpRight className="h-5 w-5 text-[var(--text-tertiary)] transition-transform group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 group-hover/title:text-[var(--accent)]" />
+                        </Link>
+                        <span className={cn('mt-1 flex items-center gap-1 text-xs font-medium', statusColor)}>
+                          <StatusIcon className="h-3 w-3" />
+                          {statusLabel}
+                        </span>
+                      </div>
+
+                      <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                        {project.description}
+                      </p>
+
+                      {project.impact && (
+                        <div className="w-fit rounded-lg bg-[var(--accent-muted)] px-3 py-2">
+                          <p className="text-xs font-semibold text-[var(--accent)]">📈 {project.impact}</p>
+                        </div>
+                      )}
+
+                      {project.tech?.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.tech.map((t) => (
+                            <TechBadge key={t} label={t} size="sm" />
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="flex flex-wrap items-center gap-4 pt-1">
+                        <Link
+                          href={`/projects/${project.slug}`}
+                          className="text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
+                        >
+                          Read case study →
+                        </Link>
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${project.title} GitHub repository`}
+                            className="flex items-center gap-1.5 text-xs text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
+                          >
+                            <GithubIcon className="h-3.5 w-3.5" />
+                            Code
+                          </a>
+                        )}
+                        {project.demo && (
+                          <a
+                            href={project.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${project.title} live demo`}
+                            className="flex items-center gap-1.5 text-xs text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5" />
+                            Live Demo
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                </FadeUp>
+              )
+            })}
+          </div>
+        )}
+
+        {hasFeatured && gridProjects.length > 0 && (
+          <FadeUp delay={0.05}>
+            <p className="mt-12 text-sm font-semibold uppercase tracking-widest text-[var(--text-tertiary)]">
+              More projects
+            </p>
+          </FadeUp>
+        )}
 
         {/* Tag filter bar */}
         {allTags.length > 0 && (
@@ -103,14 +228,14 @@ export function Projects({ projects }: ProjectsSectionProps) {
         {/* Result count when filtered */}
         {activeTag && (
           <p className="mt-4 text-sm text-[var(--text-tertiary)]">
-            Showing {filtered.length} of {projects.length} projects
+            Showing {gridProjects.length} of {projects.length} projects
           </p>
         )}
 
         {/* Grid */}
         <motion.div layout className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
-            {filtered.map((project, i) => {
+            {gridProjects.map((project, i) => {
               const { icon: StatusIcon, label: statusLabel, color: statusColor } = statusConfig[project.status] ?? statusConfig.live
               const imgUrl = project.imagePublicId
                 ? getCloudinaryUrl(project.imagePublicId, { width: 600, height: 340, crop: 'fill' })
@@ -132,7 +257,10 @@ export function Projects({ projects }: ProjectsSectionProps) {
                 >
                   {/* Image */}
                   {imgUrl && (
-                    <div className="aspect-video overflow-hidden bg-[var(--surface-elevated)]">
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      className="block aspect-video overflow-hidden bg-[var(--surface-elevated)]"
+                    >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imgUrl}
@@ -140,14 +268,19 @@ export function Projects({ projects }: ProjectsSectionProps) {
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy"
                       />
-                    </div>
+                    </Link>
                   )}
 
                   <div className="flex flex-1 flex-col gap-3 p-5">
                     {/* Header row */}
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h3 className="font-semibold text-[var(--text-primary)]">{project.title}</h3>
+                        <Link
+                          href={`/projects/${project.slug}`}
+                          className="font-semibold text-[var(--text-primary)] transition-colors hover:text-[var(--accent)]"
+                        >
+                          {project.title}
+                        </Link>
                         <span className={cn('mt-0.5 flex items-center gap-1 text-xs font-medium', statusColor)}>
                           <StatusIcon className="h-3 w-3" />
                           {statusLabel}
@@ -188,6 +321,13 @@ export function Projects({ projects }: ProjectsSectionProps) {
 
                     {/* Links */}
                     <div className="flex items-center gap-3 pt-1">
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="flex items-center gap-1.5 text-xs text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]"
+                      >
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                        Case Study
+                      </Link>
                       {project.github && (
                         <a
                           href={project.github}
@@ -221,7 +361,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
         </motion.div>
 
         {/* Empty state */}
-        {filtered.length === 0 && (
+        {gridProjects.length === 0 && (
           <div className="mt-8 rounded-xl border border-dashed border-[var(--border)] p-12 text-center">
             <p className="text-[var(--text-tertiary)]">No projects match this filter.</p>
           </div>

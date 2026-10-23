@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Sun, Moon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { pillHover } from '@/lib/motion'
 
 export function ThemeToggle({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme()
@@ -17,7 +18,8 @@ export function ThemeToggle({ className }: { className?: string }) {
   const isDark = theme === 'dark' || (!theme && true)
 
   return (
-    <button
+    <motion.button
+      {...pillHover}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       className={cn(
         'relative flex h-9 w-9 items-center justify-center rounded-lg',
@@ -51,6 +53,6 @@ export function ThemeToggle({ className }: { className?: string }) {
           </motion.span>
         )}
       </AnimatePresence>
-    </button>
+    </motion.button>
   )
 }

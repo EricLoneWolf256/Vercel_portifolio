@@ -1,12 +1,15 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { Download } from 'lucide-react'
 import { siteConfig } from '@/config/siteConfig'
 import { cn } from '@/lib/utils'
+import { scaleHover } from '@/lib/motion'
 
 export function ResumeFAB({ className }: { className?: string }) {
   return (
-    <a
+    <motion.a
+      {...scaleHover}
       href={siteConfig.resumeUrl}
       download={siteConfig.resumeFilename}
       target="_blank"
@@ -17,7 +20,7 @@ export function ResumeFAB({ className }: { className?: string }) {
         'flex items-center gap-2 rounded-full',
         'bg-[var(--accent)] text-white shadow-lg',
         'px-4 py-3 text-sm font-semibold',
-        'transition-all duration-200 hover:scale-105 hover:bg-[var(--accent-hover)] hover:shadow-xl',
+        'transition-colors duration-200 hover:bg-[var(--accent-hover)] hover:shadow-xl',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2',
         'md:hidden', // Only show on mobile — desktop has it in the nav
         className,
@@ -25,6 +28,6 @@ export function ResumeFAB({ className }: { className?: string }) {
     >
       <Download className="h-4 w-4" />
       <span>Resume</span>
-    </a>
+    </motion.a>
   )
 }

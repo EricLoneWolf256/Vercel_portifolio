@@ -8,6 +8,9 @@ import { ThemeToggle } from '@/components/shared/ThemeToggle'
 import { MobileNav } from './MobileNav'
 import { siteConfig } from '@/config/siteConfig'
 import { cn } from '@/lib/utils'
+import { ctaHover, pillHover } from '@/lib/motion'
+
+const MotionLink = motion.create(Link)
 
 // Extracts the anchor id from href like "/#about" → "about"
 function getAnchorId(href: string) {
@@ -78,10 +81,11 @@ export function Navbar() {
               const isActive = anchorId ? activeSection === anchorId : false
               return (
                 <li key={link.href}>
-                  <Link
+                  <MotionLink
+                    {...pillHover}
                     href={link.href}
                     className={cn(
-                      'relative px-3 py-2 text-sm font-medium transition-colors rounded-lg',
+                      'relative block px-3 py-2 text-sm font-medium transition-colors rounded-lg',
                       isActive
                         ? 'text-[var(--text-primary)]'
                         : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]',
@@ -96,7 +100,7 @@ export function Navbar() {
                         transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                       />
                     )}
-                  </Link>
+                  </MotionLink>
                 </li>
               )
             })}
@@ -107,7 +111,8 @@ export function Navbar() {
             <ThemeToggle />
 
             {/* Resume — desktop */}
-            <a
+            <motion.a
+              {...ctaHover}
               href={siteConfig.resumeUrl}
               download={siteConfig.resumeFilename}
               target="_blank"
@@ -122,17 +127,18 @@ export function Navbar() {
             >
               <Download className="h-3.5 w-3.5" />
               Resume
-            </a>
+            </motion.a>
 
             {/* Hamburger — mobile */}
-            <button
+            <motion.button
+              {...pillHover}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors md:hidden"
               onClick={() => setMobileOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={mobileOpen}
             >
               <Menu className="h-5 w-5" />
-            </button>
+            </motion.button>
           </div>
         </nav>
       </header>

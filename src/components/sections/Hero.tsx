@@ -3,11 +3,10 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { ArrowDown, Download } from 'lucide-react'
-import { AvailabilityBadge } from '@/components/shared/AvailabilityBadge'
-import { LocalTime } from '@/components/shared/LocalTime'
 import { siteConfig } from '@/config/siteConfig'
 import { getCloudinaryUrl } from '@/lib/cloudinary'
 import { cn } from '@/lib/utils'
+import { ctaHover, iconHover } from '@/lib/motion'
 
 // Social SVG icons (lucide-react dropped Github/Linkedin in recent versions)
 function GithubIcon({ className }: { className?: string }) {
@@ -60,17 +59,6 @@ export function Hero() {
         >
           {/* Text content */}
           <div className="space-y-6">
-            {/* Availability badge */}
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
-            >
-              <AvailabilityBadge
-                status={siteConfig.availability.status}
-                label={siteConfig.availability.label}
-                arrangement={siteConfig.availability.arrangement}
-              />
-            </motion.div>
-
             {/* Name */}
             <motion.h1
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
@@ -88,33 +76,13 @@ export function Hero() {
               <p className="max-w-xl text-lg text-[var(--text-secondary)]">{siteConfig.tagline}</p>
             </motion.div>
 
-            {/* Location + time */}
-            <motion.div
-              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
-              className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[var(--text-tertiary)]"
-            >
-              <span>{siteConfig.location}</span>
-              <span>·</span>
-              <LocalTime />
-            </motion.div>
-
             {/* CTAs */}
             <motion.div
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
               className="flex flex-wrap gap-3 pt-2"
             >
-              <a
-                href="/#projects"
-                className={cn(
-                  'inline-flex items-center gap-2 rounded-lg px-5 py-2.5',
-                  'bg-[var(--accent)] text-white font-semibold text-sm',
-                  'transition-all duration-200 hover:bg-[var(--accent-hover)] hover:scale-[1.02]',
-                )}
-              >
-                View Projects
-                <ArrowDown className="h-4 w-4" />
-              </a>
-              <a
+              <motion.a
+                {...ctaHover}
                 href={siteConfig.resumeUrl}
                 download={siteConfig.resumeFilename}
                 target="_blank"
@@ -123,12 +91,12 @@ export function Hero() {
                   'inline-flex items-center gap-2 rounded-lg px-5 py-2.5',
                   'border border-[var(--border)] bg-[var(--surface)]',
                   'text-sm font-semibold text-[var(--text-secondary)]',
-                  'transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--text-primary)] hover:scale-[1.02]',
+                  'transition-colors duration-200 hover:border-[var(--accent)] hover:text-[var(--text-primary)]',
                 )}
               >
                 <Download className="h-4 w-4" />
                 Download Resume
-              </a>
+              </motion.a>
             </motion.div>
 
             {/* Social links */}
@@ -136,24 +104,26 @@ export function Hero() {
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
               className="flex items-center gap-3"
             >
-              <a
+              <motion.a
+                {...iconHover}
                 href={siteConfig.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub profile"
-                className="text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
+                className="inline-block text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
               >
                 <GithubIcon className="h-5 w-5" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                {...iconHover}
                 href={siteConfig.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn profile"
-                className="text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
+                className="inline-block text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
               >
                 <LinkedinIcon className="h-5 w-5" />
-              </a>
+              </motion.a>
             </motion.div>
           </div>
 

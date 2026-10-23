@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Download } from 'lucide-react'
 import Link from 'next/link'
 import { siteConfig } from '@/config/siteConfig'
+import { ctaHover, pillHover } from '@/lib/motion'
+
+const MotionLink = motion.create(Link)
 
 interface MobileNavProps {
   isOpen: boolean
@@ -38,13 +41,14 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             aria-label="Mobile navigation"
           >
             {/* Close */}
-            <button
+            <motion.button
+              {...pillHover}
               onClick={onClose}
               className="mb-8 self-end rounded-lg p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
               aria-label="Close navigation"
             >
               <X className="h-5 w-5" />
-            </button>
+            </motion.button>
 
             {/* Links */}
             <ul className="flex flex-col gap-1">
@@ -55,13 +59,14 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * i, duration: 0.25 }}
                 >
-                  <Link
+                  <MotionLink
+                    {...pillHover}
                     href={link.href}
                     onClick={onClose}
                     className="block rounded-lg px-4 py-3 text-lg font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface-elevated)] hover:text-[var(--text-primary)]"
                   >
                     {link.label}
-                  </Link>
+                  </MotionLink>
                 </motion.li>
               ))}
             </ul>
@@ -73,7 +78,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               transition={{ delay: 0.3 }}
               className="mt-auto"
             >
-              <a
+              <motion.a
+                {...ctaHover}
                 href={siteConfig.resumeUrl}
                 download={siteConfig.resumeFilename}
                 target="_blank"
@@ -83,7 +89,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               >
                 <Download className="h-4 w-4" />
                 Download Resume
-              </a>
+              </motion.a>
             </motion.div>
           </motion.nav>
         </>
