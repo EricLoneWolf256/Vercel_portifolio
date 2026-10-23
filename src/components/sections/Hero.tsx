@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { ArrowDown, Download } from 'lucide-react'
-import { siteConfig } from '@/config/siteConfig'
 import { getCloudinaryUrl } from '@/lib/cloudinary'
 import { cn } from '@/lib/utils'
 import { ctaHover, iconHover } from '@/lib/motion'
+import type { SiteSettings } from '@/types'
 
 // Social SVG icons (lucide-react dropped Github/Linkedin in recent versions)
 function GithubIcon({ className }: { className?: string }) {
@@ -25,8 +25,8 @@ function LinkedinIcon({ className }: { className?: string }) {
   )
 }
 
-export function Hero() {
-  const avatarUrl = getCloudinaryUrl('portfolio/avatar', {
+export function Hero({ settings }: { settings: SiteSettings }) {
+  const avatarUrl = getCloudinaryUrl(settings.avatarPublicId, {
     width: 160,
     height: 160,
     crop: 'fill',
@@ -64,7 +64,7 @@ export function Hero() {
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
               className="font-display text-hero font-semibold leading-none tracking-tight text-[var(--text-primary)]"
             >
-              {siteConfig.name}
+              {settings.name}
             </motion.h1>
 
             {/* Title + tagline */}
@@ -72,8 +72,8 @@ export function Hero() {
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
               className="space-y-2"
             >
-              <p className="text-2xl font-semibold text-[var(--accent)]">{siteConfig.title}</p>
-              <p className="max-w-xl text-lg text-[var(--text-secondary)]">{siteConfig.tagline}</p>
+              <p className="text-2xl font-semibold text-[var(--accent)]">{settings.title}</p>
+              <p className="max-w-xl text-lg text-[var(--text-secondary)]">{settings.tagline}</p>
             </motion.div>
 
             {/* CTAs */}
@@ -83,8 +83,8 @@ export function Hero() {
             >
               <motion.a
                 {...ctaHover}
-                href={siteConfig.resumeUrl}
-                download={siteConfig.resumeFilename}
+                href={settings.resumeUrl}
+                download={settings.resumeFilename}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
@@ -106,7 +106,7 @@ export function Hero() {
             >
               <motion.a
                 {...iconHover}
-                href={siteConfig.social.github}
+                href={settings.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub profile"
@@ -116,7 +116,7 @@ export function Hero() {
               </motion.a>
               <motion.a
                 {...iconHover}
-                href={siteConfig.social.linkedin}
+                href={settings.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn profile"
@@ -136,14 +136,14 @@ export function Hero() {
               <div className="h-40 w-40 overflow-hidden rounded-full ring-2 ring-[var(--border)] ring-offset-4 ring-offset-[var(--bg)]">
                 <Image
                   src={avatarUrl}
-                  alt={`${siteConfig.name} profile photo`}
+                  alt={`${settings.name} profile photo`}
                   width={160}
                   height={160}
                   priority
                   className="h-full w-full object-cover"
                 />
               </div>
-              {siteConfig.availability.status === 'open' && (
+              {settings.availability.status === 'open' && (
                 <span className="absolute bottom-2 right-2 flex h-4 w-4">
                   <span className="absolute inline-flex h-full w-full animate-[pulse-dot_2s_cubic-bezier(0.4,0,0.6,1)_infinite] rounded-full bg-[var(--success)] opacity-75" />
                   <span className="relative inline-flex h-4 w-4 rounded-full bg-[var(--success)] ring-2 ring-[var(--bg)]" />

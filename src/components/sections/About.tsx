@@ -1,14 +1,9 @@
 import { FadeUp } from '@/components/animations/FadeUp'
-import { siteConfig } from '@/config/siteConfig'
+import type { SiteSettings } from '@/types'
 
-const stats = [
-  { label: 'Years Experience', value: '5+' },
-  { label: 'Projects Shipped', value: '20+' },
-  { label: 'Open Source PRs', value: '50+' },
-  { label: 'Happy Clients', value: '12' },
-]
+export function About({ settings }: { settings: SiteSettings }) {
+  const { bio, stats, values } = settings.about
 
-export function About() {
   return (
     <section
       id="about"
@@ -29,21 +24,9 @@ export function About() {
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Bio */}
           <FadeUp delay={0.1} className="space-y-4 text-[var(--text-secondary)] leading-relaxed">
-            <p>
-              I&apos;m a Full-Stack Engineer based in {siteConfig.location} with a passion for
-              building web products that are fast, accessible, and genuinely useful. I care deeply
-              about the craft — from clean API design to pixel-perfect UIs.
-            </p>
-            <p>
-              My background spans React, Next.js, Node.js, and Firebase. I&apos;ve worked across
-              early-stage startups and larger product teams, shipping features end-to-end and
-              owning the full development lifecycle from architecture to deployment.
-            </p>
-            <p>
-              When I&apos;m not coding, I&apos;m writing about engineering, contributing to
-              open-source, or exploring what&apos;s next in the web platform. I believe great
-              software is built by people who communicate clearly and ship consistently.
-            </p>
+            {bio.map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
           </FadeUp>
 
           {/* Stats */}
@@ -68,7 +51,7 @@ export function About() {
                 What I value
               </p>
               <ul className="grid grid-cols-2 gap-2 text-sm text-[var(--text-secondary)]">
-                {['Clean code', 'Performance', 'Accessibility', 'Clear comms', 'Shipping fast', 'User empathy'].map((v) => (
+                {values.map((v) => (
                   <li key={v} className="flex items-center gap-2">
                     <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--accent)]" />
                     {v}
