@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+A Next.js portfolio with a full admin dashboard — every piece of content
+(text, images, links, projects, experience, skills, testimonials) is editable
+from `/admin` and backed by Firestore + Cloudinary, so this can be handed off
+to a non-technical owner who only needs their own Firebase + Cloudinary
+accounts.
 
-First, run the development server:
+**Deploying this for the first time, or handing it off to someone else?**
+- [`DEPLOYMENT.md`](./DEPLOYMENT.md) — click-by-click: put it on Vercel, connect Firebase + Cloudinary, where to paste every key.
+- [`ADMIN_SETUP.md`](./ADMIN_SETUP.md) — what each `/admin` section does, once it's live.
+
+## Stack
+
+- Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4
+- Firestore (content) + Firebase Auth (the single `/admin` login) via `firebase` (client) and `firebase-admin` (server)
+- Cloudinary (images + resume PDF)
+- Framer Motion, react-hook-form + Zod, Vercel Analytics/Speed Insights
+
+## Local development
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in your own values — see ADMIN_SETUP.md
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) for the public site, or
+[http://localhost:3000/admin/login](http://localhost:3000/admin/login) for
+the dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/app/
+  (public)/            # the public site — home page + /projects/[slug] case studies
+  admin/
+    login/             # public login page
+    (dashboard)/        # everything under /admin, gated by layout.tsx's session check
+  api/auth/session/     # exchanges a Firebase ID token for an HttpOnly session cookie
+src/lib/
+  data/                 # public read functions (client SDK) — getProjects(), getSiteSettings(), ...
+  admin/                # shared admin-only helpers (Cloudinary upload action, shared types)
+  auth/session.ts        # the secure session check (DAL) used by the dashboard layout + Server Actions
+src/proxy.ts            # optimistic auth redirect for /admin/* (Next.js 16's renamed middleware)
+firestore.rules          # public read / no client writes — all writes go through Server Actions
+```
 
-## Learn More
+See `TODO.md` for the build log of how the admin dashboard was put together,
+and what (if anything) is still outstanding.
 
-To learn more about Next.js, take a look at the following resources:
+## Optional: seed example content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx tsx scripts/seed.ts
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Populates Firestore with sample projects/experience/skills/testimonials to
+develop against, or to give a new owner something to edit rather than a blank
+dashboard.
