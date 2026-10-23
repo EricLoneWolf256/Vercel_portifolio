@@ -9,6 +9,7 @@ import { MobileNav } from './MobileNav'
 import { siteConfig } from '@/config/siteConfig'
 import { cn } from '@/lib/utils'
 import { ctaHover, pillHover } from '@/lib/motion'
+import type { SiteSettings } from '@/types'
 
 const MotionLink = motion.create(Link)
 
@@ -18,7 +19,7 @@ function getAnchorId(href: string) {
   return match ? match[1] : null
 }
 
-export function Navbar() {
+export function Navbar({ settings }: { settings: SiteSettings }) {
   const [activeSection, setActiveSection] = useState('')
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -69,9 +70,9 @@ export function Navbar() {
           <Link
             href="/"
             className="font-display text-lg font-semibold text-[var(--text-primary)] transition-opacity hover:opacity-70"
-            aria-label={`${siteConfig.name} — home`}
+            aria-label={`${settings.name} — home`}
           >
-            {siteConfig.name}
+            {settings.name}
           </Link>
 
           {/* Desktop Links */}
@@ -113,8 +114,8 @@ export function Navbar() {
             {/* Resume — desktop */}
             <motion.a
               {...ctaHover}
-              href={siteConfig.resumeUrl}
-              download={siteConfig.resumeFilename}
+              href={settings.resumeUrl}
+              download={settings.resumeFilename}
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -143,7 +144,7 @@ export function Navbar() {
         </nav>
       </header>
 
-      <MobileNav isOpen={mobileOpen} onClose={closeMobile} />
+      <MobileNav isOpen={mobileOpen} onClose={closeMobile} settings={settings} />
     </>
   )
 }

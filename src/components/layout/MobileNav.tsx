@@ -5,15 +5,17 @@ import { X, Download } from 'lucide-react'
 import Link from 'next/link'
 import { siteConfig } from '@/config/siteConfig'
 import { ctaHover, pillHover } from '@/lib/motion'
+import type { SiteSettings } from '@/types'
 
 const MotionLink = motion.create(Link)
 
 interface MobileNavProps {
   isOpen: boolean
   onClose: () => void
+  settings: SiteSettings
 }
 
-export function MobileNav({ isOpen, onClose }: MobileNavProps) {
+export function MobileNav({ isOpen, onClose, settings }: MobileNavProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -80,8 +82,8 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             >
               <motion.a
                 {...ctaHover}
-                href={siteConfig.resumeUrl}
-                download={siteConfig.resumeFilename}
+                href={settings.resumeUrl}
+                download={settings.resumeFilename}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={onClose}
