@@ -141,61 +141,30 @@ Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 The user's own portfolio (`edkaydev`, sibling project) has a blog, gallery,
 WhatsApp button, and dual sign-in that this site doesn't. Porting the
 *capabilities*, not the visual design — colors/fonts come from the user
-separately. Architecture decisions, so we don't re-litigate:
+separately. **Gallery and Blog (and Comments, which only existed to attach
+to blog posts) explicitly cut per the user — not building them.** Remaining
+scope is just the two quick wins below. Architecture decisions, so we don't
+re-litigate:
 
-- **Blog content**: plain markdown in a `content: string` field, rendered with
-  `react-markdown` (new dependency). edkaydev hand-rolls a markdown-ish parser
-  via string-splitting that doesn't support inline bold/italic/links/numbered
-  lists — not worth copying as-is; a real (tiny) markdown renderer is a
-  straight quality improvement for the same amount of code.
-- **Comments**: open form (name + message + honeypot), submitted via a Server
-  Action using `firebase-admin` — consistent with this project's "no public
-  Firestore writes, ever" rule. edkaydev instead requires the *visitor* to
-  sign in with Google to comment (identity comes off the Firebase `User`
-  object) — that's a second, separate public-facing auth flow we're not
-  taking on for a portfolio blog. No moderation/approval queue (comments
-  publish immediately) but admins get a dashboard page to delete any comment,
-  matching the existing Messages-inbox pattern.
-- **Gallery**: its own Firestore collection (`gallery`) with the same
-  list/new/[id]/actions.ts CRUD pattern already used 4 times in this repo —
-  NOT embedded as an array field inside the settings doc the way edkaydev
-  does it. Keeps "one content type, one collection, one CRUD pattern."
 - **Dual auth (email/password + Google)**: adding the UI only. Authorization
   stays exactly as it is — server-side `ADMIN_EMAIL` check in
   `/api/auth/session`, which already works for *any* sign-in method since it
   only inspects the resulting ID token's email claim. Explicitly NOT copying
   edkaydev's `NEXT_PUBLIC_ADMIN_EMAILS` (client-exposed, multi-admin) —
   that's a weaker security model, not an improvement.
-- **Draft posts stay actually private**: unlike edkaydev, `firestore.rules`
-  for `posts` only allows reading documents where `status == 'published'` —
-  the admin dashboard still sees everything via `firebase-admin` (bypasses
-  rules), but a visitor poking at the raw collection via the client SDK can't
-  enumerate drafts.
-- **Settings sub-panel reorg**: deferred to the end / cut if time runs out —
-  it's a UX nicety on an already-working page, not a capability gap.
-
-- [ ] `react-markdown` dependency added.
-- [ ] `Post`/`Comment`/`GalleryItem` types added to `src/types/index.ts`.
-- [ ] `firestore.rules` updated: `posts` (published-only read), `comments`
-      (public read, no write), `gallery` (public read, no write).
-- [ ] Public `getPosts()`/`getPostBySlug()`/`getComments()`/`getGallery()` data
-      loaders (client SDK, mirroring existing `lib/data/*.ts` pattern).
-- [ ] `WhatsAppFAB` component + `whatsapp` field on `SiteSettings` + Settings
+- [x] `WhatsAppFAB` component + `whatsapp` field on `SiteSettings` + Settings
       form field.
-- [ ] Email/password sign-in option added to `/admin/login` alongside Google.
-- [ ] Admin Gallery CRUD (actions/list/new/edit, `GalleryForm`).
-- [ ] Admin Posts CRUD (actions/list/new/edit, `PostForm` with markdown
-      textarea + category select + Cloudinary cover image upload).
-- [ ] Public `/posts` list + `/posts/[slug]` detail (markdown render +
-      comment list + comment form).
-- [ ] Public `/gallery` page.
-- [ ] Admin Comments moderation page (list + delete, grouped or linked by
-      post).
-- [ ] `siteConfig.nav` gets `Blog`/`Gallery` entries; `Navbar`/`MobileNav`
-      active-state logic extended to handle real routes alongside in-page
-      anchors.
-- [ ] Sidebar gets Posts/Gallery/Comments nav entries.
-- [ ] `tsc`/`eslint`/`npm run build` clean; commit incrementally.
+- [x] Email/password sign-in option added to `/admin/login` alongside Google.
+- [x] ~~Gallery~~ — cut per the user, not building it.
+- [x] ~~Blog/Posts~~ — cut per the user (`react-markdown` dependency and the
+      `Post`/`Comment` types/data loader were added then removed again once
+      this came in).
+- [x] ~~Comments~~ — cut along with Blog (comments only existed to attach to
+      posts; not inventing a standalone comments-on-projects feature nobody
+      asked for).
+- [x] `tsc`/`eslint`/`npm run build` clean; committed incrementally.
+- [ ] Settings sub-panel reorg — still on the table if the user wants it
+      later, but not requested; not building unless asked.
 
 ---
 
