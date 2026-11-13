@@ -209,6 +209,74 @@ Email/Password to Google OAuth, restricted to one email:
 
 ---
 
+## Phase 13 — Brand redesign, round 2: the background itself, not just accents (RPI)
+
+Round 1 (see "fix: make the page background itself bold coral..." commit)
+kept the background orange-leaning and only lightly tinted it. The user
+re-shared the same tin reference and asked specifically to copy the **colors,
+fonts, patterns, and icon style of the tins only** (not the busy backdrop in
+the photo), using a Read → Plan → Implement process. Then, mid-build, asked
+for animation/responsiveness passes and doc updates on top.
+
+- [x] **Read**: re-reviewed current `globals.css`/`layout.tsx`/`SectionKicker`
+      before touching anything.
+- [x] **Plan**: stated the 6-point plan in chat before writing code (colors,
+      fonts, pattern, shape motifs, deps, verification) — see that message
+      for the reasoning.
+- [x] Recalibrated `--bg`/`--bg-top`/`--bg-bottom` to a truer brick-red (hue
+      ~13°) instead of the previous orange-leaning coral (hue ~20°).
+      **Honest limitation, not fixed**: the tin's actual darkest maroon
+      can't be matched while keeping dark-ink text AA-compliant — red
+      contributes very little to perceived luminance (WCAG weights it
+      0.2126 vs green's 0.7152), so "deep saturated maroon + black text"
+      literally cannot pass accessibility math. Chose the reddest hue that
+      still clears 4.5:1 for `text-secondary` at every gradient stop,
+      verified with the same contrast-math script as round 1.
+- [x] Added **Yellowtail** (script font, `next/font/google`, no new npm
+      package) as `--font-script` — mirrors the brush-script "The" on the
+      label. Not yet used anywhere — flagging this as a loose end; it's
+      wired into the font system but no component applies `font-script` yet.
+- [x] Replaced the soft-blob background texture with a real tileable
+      tone-on-tone SVG swirl pattern (procedurally generated, white fill in
+      dark mode / dark-ink fill in light mode, `background-size`/`-repeat`
+      correctly listed per-layer alongside the existing gradient blobs).
+- [x] `ScallopFrame` component — a procedurally-generated scalloped
+      (wax-seal) circle, framing the Hero avatar photo; slow 60s idle
+      rotation (respects `prefers-reduced-motion`).
+- [x] `.tag-scallop-top` CSS utility (zigzag clip-path) — applied to the
+      "Flagship project" tag, echoing the die-cut flavor-name tag on the
+      label.
+- [x] **Found and fixed a real bug via screenshot, not just math**: the
+      Resume FAB (bottom-right, mobile) visually collided with the mobile
+      nav panel's own "Download Resume" button when the panel was open —
+      both occupy the same corner. Fixed by lifting `mobileOpen` state out
+      of `Navbar` into a new `PublicChrome` client wrapper that hides both
+      FABs (Resume + WhatsApp) while the panel is open.
+- [x] Verified mobile (390px) via screenshot — no layout breakage found
+      beyond the FAB collision above.
+- [x] Updated `DEPLOYMENT.md`/`ADMIN_SETUP.md`: both still described
+      Google-only sign-in (stale since the dual-auth phase) and
+      `ADMIN_SETUP.md` still mentioned the contact form's "Messages" as if
+      new submissions still arrive (stale since the contact-form-removal
+      phase — that page is now documented as a read-only archive of
+      whatever's already on file).
+
+### Known loose ends from this phase
+
+- `--font-script`/Yellowtail is wired up but unused — no component applies
+  `font-script` yet. Either use it somewhere (e.g. a small flourish before
+  the Hero name) or it's dead weight.
+- The swirl pattern's 4 "teardrop" shapes read more like soft overlapping
+  circles than a true paisley swirl at the sizes/opacity chosen — reads as
+  reasonable tone-on-tone texture in the screenshot, but isn't a literal
+  swirl shape. Revisit if the user wants it more clearly swirl-like.
+- The scalloped-tag motif (`.tag-scallop-top`) is only applied to the
+  Flagship project tag so far — a single application, not a
+  repeated-everywhere motif. Intentional (avoid over-applying a strong
+  decorative shape), but worth knowing if asked "why isn't X tag scalloped."
+
+---
+
 ## Known limitations / explicitly out of scope for this pass
 
 - Nav links (`siteConfig.nav`) stay code-level, not admin-editable — they're

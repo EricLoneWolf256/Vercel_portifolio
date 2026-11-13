@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, JetBrains_Mono, Fredoka } from 'next/font/google'
+import { Inter, JetBrains_Mono, Fredoka, Yellowtail } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'sonner'
 import { Analytics } from '@vercel/analytics/next'
@@ -26,6 +26,15 @@ const fredoka = Fredoka({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrains-mono',
+  display: 'swap',
+})
+
+// Decorative script accent — mirrors the brush-script "The" on the brand
+// reference. Used sparingly (one or two words), never for body text.
+const yellowtail = Yellowtail({
+  subsets: ['latin'],
+  variable: '--font-script',
+  weight: '400',
   display: 'swap',
 })
 
@@ -126,7 +135,7 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${jetbrainsMono.variable} ${fredoka.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${fredoka.variable} ${yellowtail.variable}`}
     >
       <head>
         <script

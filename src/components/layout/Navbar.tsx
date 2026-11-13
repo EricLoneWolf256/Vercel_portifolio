@@ -19,10 +19,20 @@ function getAnchorId(href: string) {
   return match ? match[1] : null
 }
 
-export function Navbar({ settings }: { settings: SiteSettings }) {
+interface NavbarProps {
+  settings: SiteSettings
+  /** Lets a parent (e.g. to hide the floating action buttons) track the mobile panel's open state. */
+  onMobileOpenChange?: (open: boolean) => void
+}
+
+export function Navbar({ settings, onMobileOpenChange }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('')
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  useEffect(() => {
+    onMobileOpenChange?.(mobileOpen)
+  }, [mobileOpen, onMobileOpenChange])
 
   // Track scroll for background blur
   useEffect(() => {

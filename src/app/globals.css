@@ -9,6 +9,7 @@
   --font-sans: var(--font-inter);
   --font-display: var(--font-cal-sans);
   --font-mono: var(--font-jetbrains-mono);
+  --font-script: var(--font-script);
 
   /* Type scale */
   --text-hero: 4.5rem;
@@ -66,12 +67,18 @@
   /* Kept deliberately close together (not a dramatic dark-to-light swing) —
      text sits directly on this gradient everywhere, not just inside cards,
      so every stop needs to clear WCAG AA against --text-primary/secondary.
-     Verified: text-primary 5.3–6.3:1, text-secondary 4.7–5.6:1 against all
-     three stops. --text-tertiary does NOT clear this and must stay confined
-     to card surfaces (where it's 17:1+ against --surface). */
-  --bg:               #CE6D3C;
-  --bg-top:           #CC6B3A;
-  --bg-bottom:        #D87B48;
+     Hue pulled redder (H13) than the first pass (H20, read as orange/coral)
+     to track the Original tin's true brick-red rather than peach-coral —
+     lightness is the ceiling a true-saturated dark red allows before dark
+     ink stops clearing contrast (red contributes little to perceived
+     luminance per the WCAG formula, so "deep maroon + black text" from the
+     print label literally can't pass AA; this is as close as accessible
+     allows). Verified: text-primary 5.2–6.6:1, text-secondary 4.6–5.9:1
+     against all three stops. --text-tertiary does NOT clear this and must
+     stay confined to card surfaces (where it's 17:1+ against --surface). */
+  --bg:               #D36C50;
+  --bg-top:           #D36445;
+  --bg-bottom:        #D68266;
   --surface:          #FBF1DE;
   --surface-elevated: #F3E2C2;
   --border:           #E4C797;
@@ -99,9 +106,9 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg:               #F3B583;
-  --bg-top:           #ECA069;
-  --bg-bottom:        #F8D4AC;
+  --bg:               #EBAA98;
+  --bg-top:           #EA9F8A;
+  --bg-bottom:        #EFC2B3;
   --surface:          #FFFFFF;
   --surface-elevated: #FBF0DD;
   --border:           #EDD3AC;
@@ -137,18 +144,36 @@ html {
 
 body {
   background-color: var(--bg);
+  /* Layer order (first = top): tone-on-tone swirl tile (echoes the label's
+     background texture) → soft highlight/shadow blobs → the base gradient.
+     Each layer needs its own background-size/-repeat entry, in the same
+     order, since these are shorthand lists across all layers at once. */
   background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27140%27%20height%3D%27140%27%20viewBox%3D%270%200%20140%20140%27%3E%3Cg%20fill%3D%27white%27%20opacity%3D%270.08%27%3E%3Cpath%20d%3D%27M30%2020C45%2020%2052%2035%2045%2050C38%2065%2020%2062%2015%2048C10%2034%2015%2020%2030%2020Z%27/%3E%3Cpath%20d%3D%27M100%2070C115%2070%20122%2085%20115%20100C108%20115%2090%20112%2085%2098C80%2084%2085%2070%20100%2070Z%27%20transform%3D%27rotate%2860%20100%2085%29%27/%3E%3Cpath%20d%3D%27M55%2095C70%2095%2077%20110%2070%20125C63%20140%2045%20137%2040%20123C35%20109%2040%2095%2055%2095Z%27%20transform%3D%27rotate%28-40%2055%20110%29%27/%3E%3Cpath%20d%3D%27M112%2015C120%2015%20124%2023%20120%2031C116%2039%20106%2037%20103%2029C100%2021%20104%2015%20112%2015Z%27%20transform%3D%27rotate%28100%20112%2023%29%27/%3E%3C/g%3E%3C/svg%3E"),
     radial-gradient(ellipse 60% 40% at 15% 10%, rgba(255, 255, 255, 0.10) 0%, transparent 60%),
     radial-gradient(ellipse 55% 45% at 85% 30%, rgba(255, 255, 255, 0.07) 0%, transparent 55%),
     radial-gradient(ellipse 70% 50% at 30% 80%, rgba(0, 0, 0, 0.06) 0%, transparent 60%),
     radial-gradient(ellipse 60% 45% at 90% 90%, rgba(255, 255, 255, 0.06) 0%, transparent 55%),
     linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 45%, var(--bg-bottom) 100%);
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: 140px 140px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
   background-attachment: fixed;
-  background-size: 100% 100%;
   color: var(--text-primary);
   font-family: var(--font-inter), system-ui, sans-serif;
   line-height: 1.6;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light mode gets a dark-ink swirl instead of white — tone-on-tone still
+   means "a shade off the base," and white would vanish on a pale pastel. */
+[data-theme="light"] body {
+  background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27140%27%20height%3D%27140%27%20viewBox%3D%270%200%20140%20140%27%3E%3Cg%20fill%3D%27%23140D07%27%20opacity%3D%270.05%27%3E%3Cpath%20d%3D%27M30%2020C45%2020%2052%2035%2045%2050C38%2065%2020%2062%2015%2048C10%2034%2015%2020%2030%2020Z%27/%3E%3Cpath%20d%3D%27M100%2070C115%2070%20122%2085%20115%20100C108%20115%2090%20112%2085%2098C80%2084%2085%2070%20100%2070Z%27%20transform%3D%27rotate%2860%20100%2085%29%27/%3E%3Cpath%20d%3D%27M55%2095C70%2095%2077%20110%2070%20125C63%20140%2045%20137%2040%20123C35%20109%2040%2095%2055%2095Z%27%20transform%3D%27rotate%28-40%2055%20110%29%27/%3E%3Cpath%20d%3D%27M112%2015C120%2015%20124%2023%20120%2031C116%2039%20106%2037%20103%2029C100%2021%20104%2015%20112%2015Z%27%20transform%3D%27rotate%28100%20112%2023%29%27/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse 60% 40% at 15% 10%, rgba(255, 255, 255, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 85% 30%, rgba(255, 255, 255, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 30% 80%, rgba(0, 0, 0, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 90% 90%, rgba(255, 255, 255, 0.06) 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 45%, var(--bg-bottom) 100%);
 }
 
 /* ─── Skip-to-main link (a11y) ──────────────────────────────────────────────── */
@@ -206,6 +231,18 @@ body {
 .section-padding {
   padding-top: var(--spacing-section);
   padding-bottom: var(--spacing-section);
+}
+
+/* ─── Scalloped tag shape ─────────────────────────────────────────────────────── */
+/* Zigzag top edge, flat sides/bottom — echoes the die-cut flavor-name tag   */
+/* on the brand reference. Needs extra top padding so text clears the dip.  */
+
+.tag-scallop-top {
+  clip-path: polygon(
+    0.0% 0%, 8.33% 14%, 16.67% 0%, 25.0% 14%, 33.33% 0%, 41.67% 14%,
+    50.0% 0%, 58.33% 14%, 66.67% 0%, 75.0% 14%, 83.33% 0%, 91.67% 14%,
+    100.0% 0%, 100% 100%, 0% 100%
+  );
 }
 
 /* ─── Gradient text ──────────────────────────────────────────────────────────── */

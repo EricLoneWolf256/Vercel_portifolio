@@ -104,7 +104,7 @@ export function Projects({ projects }: ProjectsSectionProps) {
                     )}
 
                     <div className="flex flex-col justify-center gap-4 p-6 md:p-8">
-                      <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 px-2.5 py-1 text-xs font-semibold text-[var(--accent)]">
+                      <span className="tag-scallop-top inline-flex w-fit items-center bg-[var(--text-primary)] px-3 pb-1.5 pt-3 text-xs font-bold uppercase tracking-wide text-[var(--surface)]">
                         Flagship project
                       </span>
 

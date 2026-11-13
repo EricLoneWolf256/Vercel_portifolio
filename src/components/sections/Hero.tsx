@@ -6,6 +6,7 @@ import { ArrowDown, Download } from 'lucide-react'
 import { getCloudinaryUrl } from '@/lib/cloudinary'
 import { cn } from '@/lib/utils'
 import { ctaHover, iconHover } from '@/lib/motion'
+import { ScallopFrame } from '@/components/shared/ScallopFrame'
 import type { SiteSettings } from '@/types'
 
 // Social SVG icons (lucide-react dropped Github/Linkedin in recent versions)
@@ -122,8 +123,9 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
             className="flex justify-center lg:justify-end"
           >
-            <div className="relative">
-              <div className="h-40 w-40 overflow-hidden rounded-full ring-2 ring-[var(--border)] ring-offset-4 ring-offset-[var(--bg)]">
+            <div className="relative flex h-[200px] w-[200px] items-center justify-center">
+              <ScallopFrame size={200} className="inset-0 m-auto" />
+              <div className="relative h-40 w-40 overflow-hidden rounded-full ring-2 ring-[var(--surface)]">
                 <Image
                   src={avatarUrl}
                   alt={`${settings.name} profile photo`}

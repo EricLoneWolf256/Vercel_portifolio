@@ -1,19 +1,8 @@
-import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
-import { ResumeFAB } from '@/components/shared/ResumeFAB'
-import { WhatsAppFAB } from '@/components/shared/WhatsAppFAB'
+import { PublicChrome } from '@/components/layout/PublicChrome'
 import { getSiteSettings } from '@/lib/data/settings'
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings()
 
-  return (
-    <>
-      <Navbar settings={settings} />
-      <main id="main">{children}</main>
-      <Footer settings={settings} />
-      <ResumeFAB settings={settings} />
-      <WhatsAppFAB settings={settings} />
-    </>
-  )
+  return <PublicChrome settings={settings}>{children}</PublicChrome>
 }
