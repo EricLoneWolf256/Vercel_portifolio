@@ -22,6 +22,7 @@ const SiteSettingsSchema = z.object({
   }),
   resumeUrl: z.string(),
   resumeFilename: z.string(),
+  whatsapp: z.string(),
   social: z.object({
     github: z.string(),
     linkedin: z.string(),

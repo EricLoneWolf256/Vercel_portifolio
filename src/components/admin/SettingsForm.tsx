@@ -38,6 +38,7 @@ interface FormValues {
   availabilityArrangement: string
   resumeUrl: string
   resumeFilename: string
+  whatsapp: string
   socialGithub: string
   socialLinkedin: string
   socialTwitter: string
@@ -65,6 +66,7 @@ function toFormValues(settings: SiteSettings): FormValues {
     availabilityArrangement: settings.availability.arrangement,
     resumeUrl: settings.resumeUrl,
     resumeFilename: settings.resumeFilename,
+    whatsapp: settings.whatsapp,
     socialGithub: settings.social.github,
     socialLinkedin: settings.social.linkedin,
     socialTwitter: settings.social.twitter ?? '',
@@ -109,6 +111,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
       },
       resumeUrl,
       resumeFilename: values.resumeFilename,
+      whatsapp: values.whatsapp,
       social: {
         github: values.socialGithub,
         linkedin: values.socialLinkedin,
@@ -239,6 +242,13 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
           <div>
             <label className={labelClass}>Twitter handle (for card attribution)</label>
             <input {...register('twitterHandle')} className={inputClass} placeholder="@yourusername" />
+          </div>
+          <div>
+            <label className={labelClass}>WhatsApp number (optional)</label>
+            <input {...register('whatsapp')} className={inputClass} placeholder="+1 555 123 4567" />
+            <p className="mt-1 text-xs text-[var(--text-tertiary)]">
+              Shows a floating WhatsApp button on the site. Leave blank to hide it.
+            </p>
           </div>
         </div>
       </div>

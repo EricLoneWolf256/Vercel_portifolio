@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { ResumeFAB } from '@/components/shared/ResumeFAB'
+import { WhatsAppFAB } from '@/components/shared/WhatsAppFAB'
 import { getSiteSettings } from '@/lib/data/settings'
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
@@ -12,6 +13,7 @@ export default async function PublicLayout({ children }: { children: React.React
       <main id="main">{children}</main>
       <Footer settings={settings} />
       <ResumeFAB settings={settings} />
+      <WhatsAppFAB settings={settings} />
     </>
   )
 }

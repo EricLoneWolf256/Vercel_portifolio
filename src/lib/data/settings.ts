@@ -22,6 +22,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   availability: siteConfig.availability,
   resumeUrl: siteConfig.resumeUrl,
   resumeFilename: siteConfig.resumeFilename,
+  whatsapp: '',
   social: siteConfig.social,
   ogImage: siteConfig.ogImage,
   twitterHandle: siteConfig.twitterHandle,

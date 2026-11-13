@@ -67,6 +67,47 @@ export interface Testimonial {
   order: number
 }
 
+// ─── Blog / Posts ─────────────────────────────────────────────────────────────
+
+export type PostCategory = 'engineering' | 'cloud' | 'devops' | 'tutorial' | 'thoughts' | 'other'
+export type PostStatus = 'draft' | 'published'
+
+export interface Post {
+  id: string
+  slug: string
+  title: string
+  excerpt: string
+  content: string // markdown
+  coverImagePublicId: string
+  category: PostCategory
+  tags: string[]
+  status: PostStatus
+  readingTime: number // minutes, computed from word count on save
+  createdAt: Timestamp | Date
+  updatedAt: Timestamp | Date
+}
+
+// ─── Comments ─────────────────────────────────────────────────────────────────
+
+export interface Comment {
+  id: string
+  postId: string
+  name: string
+  email: string
+  message: string
+  createdAt: Timestamp | Date
+  honeypot?: string // must be empty — spam trap
+}
+
+// ─── Gallery ──────────────────────────────────────────────────────────────────
+
+export interface GalleryItem {
+  id: string
+  imagePublicId: string
+  caption: string
+  order: number
+}
+
 // ─── Contact ─────────────────────────────────────────────────────────────────
 
 export interface ContactSubmission {
@@ -130,6 +171,7 @@ export interface SiteSettings {
   availability: SiteAvailability
   resumeUrl: string
   resumeFilename: string
+  whatsapp: string // digits only or with +/-/spaces — stripped to digits when building the wa.me link
   social: SocialLinks
   ogImage: string
   twitterHandle: string

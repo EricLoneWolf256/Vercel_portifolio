@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth'
 import { Loader2, Lock } from 'lucide-react'
 import { getFirebaseAuth } from '@/lib/firebase'
 import { cn } from '@/lib/utils'
@@ -30,38 +30,71 @@ function GoogleIcon({ className }: { className?: string }) {
   )
 }
 
+const inputClass = cn(
+  'w-full rounded-lg border bg-[var(--surface-elevated)] px-4 py-2.5 text-sm',
+  'text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)]',
+  'border-[var(--border)] outline-none',
+  'transition-colors focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]',
+)
+
 export default function AdminLoginPage() {
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
+  const [passwordLoading, setPasswordLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  // Shared by both sign-in methods — the server only cares about the
+  // resulting ID token's email claim (checked against ADMIN_EMAIL), not
+  // which Firebase Auth provider produced it.
+  async function exchangeForSession(idToken: string) {
+    const res = await fetch('/api/auth/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken }),
+    })
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}))
+      throw new Error(body?.error ?? 'Sign-in failed.')
+    }
+
+    router.push('/admin')
+    router.refresh()
+  }
 
   async function onGoogleSignIn() {
     setError(null)
-    setLoading(true)
+    setGoogleLoading(true)
 
     try {
       const provider = new GoogleAuthProvider()
       const credential = await signInWithPopup(getFirebaseAuth(), provider)
       const idToken = await credential.user.getIdToken()
-
-      const res = await fetch('/api/auth/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken }),
-      })
-
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}))
-        throw new Error(body?.error ?? 'Sign-in failed.')
-      }
-
-      router.push('/admin')
-      router.refresh()
+      await exchangeForSession(idToken)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Sign-in failed.')
-      setLoading(false)
+      setGoogleLoading(false)
     }
   }
+
+  async function onPasswordSignIn(e: FormEvent) {
+    e.preventDefault()
+    setError(null)
+    setPasswordLoading(true)
+
+    try {
+      const credential = await signInWithEmailAndPassword(getFirebaseAuth(), email, password)
+      const idToken = await credential.user.getIdToken()
+      await exchangeForSession(idToken)
+    } catch {
+      setError('Invalid email or password.')
+      setPasswordLoading(false)
+    }
+  }
+
+  const loading = googleLoading || passwordLoading
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4">
@@ -92,13 +125,63 @@ export default function AdminLoginPage() {
               'disabled:cursor-not-allowed disabled:opacity-60',
             )}
           >
-            {loading ? (
+            {googleLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <GoogleIcon className="h-4 w-4" />
             )}
-            {loading ? 'Signing in...' : 'Sign in with Google'}
+            {googleLoading ? 'Signing in...' : 'Sign in with Google'}
           </button>
+
+          <div className="flex items-center gap-3">
+            <div className="h-px flex-1 bg-[var(--border)]" />
+            <span className="text-xs text-[var(--text-tertiary)]">or</span>
+            <div className="h-px flex-1 bg-[var(--border)]" />
+          </div>
+
+          <form onSubmit={onPasswordSignIn} className="space-y-3">
+            <div>
+              <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-[var(--text-secondary)]">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-[var(--text-secondary)]">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={inputClass}
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className={cn(
+                'flex w-full items-center justify-center gap-2 rounded-lg px-5 py-2.5',
+                'bg-[var(--accent)] text-white font-semibold text-sm',
+                'transition-colors hover:bg-[var(--accent-hover)]',
+                'disabled:cursor-not-allowed disabled:opacity-60',
+              )}
+            >
+              {passwordLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {passwordLoading ? 'Signing in...' : 'Sign in'}
+            </button>
+          </form>
 
           {error && (
             <p role="alert" className="text-center text-sm text-[var(--error)]">
