@@ -51,8 +51,11 @@ You now have a live URL, but the site is running on placeholder data. The next p
 3. Choose **Start in production mode** → **Next**.
 4. Pick a location close to you (any is fine) → **Enable**.
 
-### 2b. Turn on Google sign-in (this is how you'll log into /admin)
+### 2b. Turn on sign-in (this is how you'll log into /admin)
 
+The login page offers two ways in — set up whichever you'll actually use (or both):
+
+**Google (no extra setup after this):**
 1. In the left sidebar, click **Build → Authentication**.
 2. Click **Get started**.
 3. Click the **Sign-in method** tab.
@@ -61,7 +64,13 @@ You now have a live URL, but the site is running on placeholder data. The next p
 6. Pick a "Project support email" from the dropdown (your own email is fine).
 7. Click **Save**.
 
-That's all — you don't need to manually create a user account. Signing in with Google on the live site will create your account automatically. (Only one specific email is allowed into the dashboard — see the note at the end of this guide.)
+That's all for Google — you don't need to manually create a user account. Signing in with Google on the live site will create your account automatically.
+
+**Email/Password (optional alternative):**
+1. Same **Sign-in method** tab → click **Email/Password** → toggle **Enable** → **Save**.
+2. Go to the **Users** tab → **Add user** → enter the exact email you'll set as `ADMIN_EMAIL` below, and a password.
+
+Either way: only one specific email is allowed into the dashboard, regardless of which method you sign in with — see the note at the end of this guide.
 
 ---
 
@@ -129,7 +138,7 @@ This is the step that connects everything together.
 | `CLOUDINARY_API_KEY` | API Key from Part 4 |
 | `CLOUDINARY_API_SECRET` | API Secret from Part 4 |
 | `NEXT_PUBLIC_SITE_URL` | Your Vercel URL from Part 1, step 6 (e.g. `https://your-project-name.vercel.app`) |
-| `ADMIN_EMAIL` | The one Google email allowed to log into `/admin` (defaults to `innocentericmuzamil@gmail.com` if you skip this) |
+| `ADMIN_EMAIL` | The one email allowed to log into `/admin`, by either sign-in method (defaults to `innocentericmuzamil@gmail.com` if you skip this) |
 
 3. Once every row is added, go to the **Deployments** tab (top of the page).
 4. Click the **⋯** (three dots) menu on the most recent deployment → **Redeploy** → confirm **Redeploy**.
@@ -144,15 +153,16 @@ This is the step that connects everything together.
    - (`localhost` is already listed by default, for testing on your own computer.)
 3. Go to Firebase Console → **Firestore Database → Rules** tab.
 4. Replace the contents with what's in this project's `firestore.rules` file, then click **Publish**.
-5. Visit `https://your-project-name.vercel.app/admin/login` and click **Sign in with Google**, using the Google account set as `ADMIN_EMAIL`.
+5. Visit `https://your-project-name.vercel.app/admin/login` and sign in (Google button, or the email/password form) using whichever method you set up, as the account set as `ADMIN_EMAIL`.
 6. You should land on the dashboard. From here you can edit everything — see `ADMIN_SETUP.md` for what each section does.
 
 ---
 
 ## If something doesn't work
 
-- **"This Google account is not authorized" message** → the email you signed in with doesn't match `ADMIN_EMAIL` in Vercel's Environment Variables. Double-check for typos, then redeploy.
+- **"Not authorized" message** → the email you signed in with (Google or email/password) doesn't match `ADMIN_EMAIL` in Vercel's Environment Variables. Double-check for typos, then redeploy.
 - **Google sign-in popup closes immediately / errors** → your domain probably isn't in Firebase's Authorized domains list (Part 6, step 1–2).
+- **Email/password sign-in says invalid email or password** → double-check that method is enabled in Firebase (Part 2b) and that you added yourself as a user with that exact email.
 - **Site shows placeholder/sample content instead of your own** → that's expected until you fill in `/admin/settings` and save once.
 - **Images won't upload** → double-check the three `CLOUDINARY_*` values in Vercel for typos.
 - **Changed an environment variable but nothing changed on the live site** → you need to manually **Redeploy** (Part 5, step 4) — Vercel doesn't auto-apply env var changes to existing deployments.
