@@ -3,10 +3,11 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
-  // Tailwind CSS v4 — wire the Turbopack loader so styles compile in dev
+  // Tailwind CSS v4 — scope the rule to app CSS only so it doesn't
+  // intercept next/font's internal CSS modules (which breaks font resolution).
   turbopack: {
     rules: {
-      '*.css': {
+      './src/**/*.css': {
         loaders: ['@tailwindcss/turbopack'],
         as: '*.css',
       },
